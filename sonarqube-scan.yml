@@ -1,0 +1,48 @@
+#runs on a schedule configured in the UI
+name: $(Date:MM-dd-yyyy)$(Rev:.r)
+
+trigger: none #disables CI triggers.
+
+schedules:
+  - cron: "36 12 * * 1"
+    displayName: Weekly Monday run at 8:36am EST
+    branches:
+      include:
+        - sprint43
+stages:
+  - stage: SonarQubeWebApp
+    variables:
+      projectName: {projectName}
+      projectKey: {SonarQube_project_key}
+    pool:
+        vmImage: 'ubuntu-latest'
+    jobs:
+    - job: Web
+      displayName: Run SonarQube on Angular
+      variables:
+        buildconfig: 'production'
+        source: '.'
+        workingDirectory: 'client'
+        angularPublishDir: $(Build.StagingDirectory)/web
+      steps:
+        - checkout: self
+          displayName: 'Checkout'
+          clean: false
+        - template: templates/test/preparesonarqubeangular.yml
+        - template: templates/groups/angularbuildgroup.yml
+        - template: templates/test/runsonarqube.yml
+    - job: Api
+      displayName: Run SonarQube on .NET Core
+      variables:
+        source: '.'
+        projectPath: 'server/{project_name}
+        buildConfiguration: 'Debug'
+        verbosity: 'normal'
+        dotnetPublishDir: $(Build.StagingDirectory)/api
+      steps:
+        - checkout: self
+          displayName: 'Checkout'
+          clean: false
+        - template: templates/test/preparesonarqubedotnet.yml
+        - template: templates/groups/dotnetbuildgroup.yml
+        - template: templates/test/runsonarqube.yml
