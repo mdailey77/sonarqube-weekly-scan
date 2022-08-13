@@ -2,7 +2,7 @@ steps:
   - task: SonarQubePrepare@5
     displayName: 'Prepare analysis on SonarQube - Angular'
     inputs:
-      SonarQube: 'sonarqube-rampv'
+      SonarQube: 'sonarqube-webapp'
       scannerMode: CLI
       configMode: manual
       cliProjectKey: $(projectKey)
