@@ -1,0 +1,9 @@
+steps:
+  - task: DotNetCoreCLI@2
+    displayName: '.NET Core Publish'
+    inputs:
+      command: 'publish' 
+      projects: $(projectPath)
+      arguments: '--configuration $(buildConfiguration) --verbosity $(verbosity) -o $(dotnetPublishDir) --no-self-contained -r win-x64'
+      modifyOutputPath: false
+      zipAfterPublish: false
