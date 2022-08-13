@@ -28,9 +28,9 @@ stages:
         - checkout: self
           displayName: 'Checkout'
           clean: false
-        - template: templates/test/preparesonarqubeangular.yml
-        - template: templates/groups/angularbuildgroup.yml
-        - template: templates/test/runsonarqube.yml
+        - template: test/preparesonarqubeangular.yml
+        - template: groups/angularbuildgroup.yml
+        - template: test/runsonarqube.yml
     - job: Api
       displayName: Run SonarQube on .NET Core
       variables:
@@ -43,6 +43,6 @@ stages:
         - checkout: self
           displayName: 'Checkout'
           clean: false
-        - template: templates/test/preparesonarqubedotnet.yml
-        - template: templates/groups/dotnetbuildgroup.yml
-        - template: templates/test/runsonarqube.yml
+        - template: test/preparesonarqubedotnet.yml
+        - template: groups/dotnetbuildgroup.yml
+        - template: test/runsonarqube.yml
