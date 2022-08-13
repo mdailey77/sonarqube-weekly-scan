@@ -1,8 +1,0 @@
-steps:
-  - task: SonarQubePrepare@5
-    displayName: 'Prepare analysis on SonarQube - .NET'
-    inputs:
-      SonarQube: sonarqube-webapp
-      scannerMode: MSBuild
-      projectKey: $(projectKey)
-      projectName: $(projectName)
