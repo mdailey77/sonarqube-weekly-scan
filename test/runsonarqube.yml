@@ -1,0 +1,5 @@
+steps:
+    - task: SonarQubeAnalyze@5
+      displayName: "Run Code Analysis"
+    - task: SonarQubePublish@5
+      displayName: 'Publish Quality Gate Result'
