@@ -1,0 +1,35 @@
+steps:
+  - task: Cache@2
+    displayName: "Npm Caching"
+    inputs:
+      key: npm | $(Build.SourcesDirectory)/client/package-lock.json
+      path: $(Build.SourcesDirectory)/client/node_modules
+      cacheHitVar: NPM_CACHE_RESTORED
+  - task: Npm@1
+    condition: ne(variables.NPM_CACHE_RESTORED, 'true')
+    displayName: 'Install NPM Packages'
+    timeoutInMinutes: 20
+    inputs:
+      command: 'custom'
+      customCommand: 'install --no-fund --no-progress'
+      workingDir: client
+      verbose: false
+  - task: Cache@2
+    displayName: "Angular Caching"
+    inputs:
+      key: angular | $(Build.SourcesDirectory)/client/package-lock.json
+      path: $(Build.SourcesDirectory)/client/.cache
+  - task: Npm@1
+    displayName: 'Angular Build'
+    inputs:
+      command: 'custom'
+      workingDir: client
+      verbose: false
+      customCommand: 'run build -- --configuration $(buildconfig) --base-href /webapp/ --output-path $(angularPublishDir)'
+  - task: Npm@1
+    displayName: 'Run Linting'
+    inputs:
+      command: 'custom'
+      workingDir: client
+      verbose: false
+      customCommand: 'run-script lint'
