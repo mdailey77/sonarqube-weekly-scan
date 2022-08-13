@@ -2,7 +2,7 @@ steps:
   - task: SonarQubePrepare@5
     displayName: 'Prepare analysis on SonarQube - .NET'
     inputs:
-      SonarQube: sonarqube-rampv
+      SonarQube: sonarqube-server
       scannerMode: MSBuild
       projectKey: $(projectKey)
       projectName: $(projectName)
